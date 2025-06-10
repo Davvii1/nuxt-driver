@@ -5,20 +5,31 @@ import { getCurrentInstance, isRef, onMounted, ref, watchEffect } from 'vue'
 import type { Ref } from 'vue'
 import { createError } from '#app'
 
-type ExtendedDriveStep = Omit<DriveStep, 'element'> & {
+export type ExtendedDriveStep = Omit<DriveStep, 'element'> & {
   element: string | Element | (() => Element) | Ref<HTMLElement | null> | null
 }
 
-type UseDriverOptions = Omit<Config, 'steps'> & {
+export type UseDriverOptions = Omit<Config, 'steps'> & {
   autoRun?: boolean
-  steps: ExtendedDriveStep[]
+  steps?: ExtendedDriveStep[] | Ref<ExtendedDriveStep[]>
 }
+
+let globalDriverInstance: Driver | null = null
 
 export default function useDriver(options: UseDriverOptions = {} as UseDriverOptions) {
   const instance = getCurrentInstance()
+  // Destroy previous instance if it exists (remove overlays, listeners, etc.)
+  if (globalDriverInstance) {
+    try {
+      globalDriverInstance.destroy?.()
+    } catch (e) {
+      // ignore errors
+    }
+  }
+  // Create a new instance and assign to global
   const driverInstance: Driver = driver()
+  globalDriverInstance = driverInstance
 
-  // Map of method names to their aliases (if any)
   const driverComputed = [
     { method: 'getState', alias: 'state' },
     { method: 'hasNextStep', alias: 'hasNextStep' },
@@ -50,7 +61,9 @@ export default function useDriver(options: UseDriverOptions = {} as UseDriverOpt
   }
 
   onMounted(() => {
-    options.steps = options.steps.map((step, idx) => {
+    const stepsArray = isRef(options.steps) ? options.steps.value : options.steps
+    if (!stepsArray) return
+    options.steps = stepsArray.map((step, idx) => {
       if (!isRef(step.element)) return step
       if (step.element.value === null) {
         console.warn(`Element in step index ${idx} is null after mount and will be skipped`)
@@ -66,17 +79,19 @@ export default function useDriver(options: UseDriverOptions = {} as UseDriverOpt
     }
   }, instance)
 
+  const highlight = (step: ExtendedDriveStep) => {
+    let element: string | Element | (() => Element) | undefined
+    if (!step.element) return console.warn(`Element in highlight is null`)
+    if (isRef(step.element) && step.element.value === null) return console.warn(`Element in highlight is null`)
+    if (isRef(step.element) && step.element.value !== null) element = step.element.value
+    if (!isRef(step.element)) element = step.element
+    driverInstance.highlight({ element, popover: step.popover })
+  }
+
   return {
     instance: driverInstance,
+    drive: driverInstance.drive,
+    highlight,
     ...driverRefs,
   }
 }
-
-// {
-//   from: 'driver.js/dist/driver.css',
-//     imports: ['default'],
-//     }, {
-//   from: 'driver.js',
-//     type: true,
-//       imports: ['Config', 'Driver'],
-//     }

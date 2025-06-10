@@ -1,4 +1,11 @@
-import { defineNuxtModule, createResolver, addImportsDir, addImportsSources } from '@nuxt/kit'
+import {
+  defineNuxtModule,
+  createResolver,
+  addImportsDir,
+  addImportsSources,
+  addPlugin,
+  addComponentsDir,
+} from '@nuxt/kit'
 
 // Module options TypeScript interface definition
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -32,7 +39,13 @@ export default defineNuxtModule<ModuleOptions>({
         ],
       },
     ])
+
     // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
     addImportsDir(resolver.resolve('./runtime/composables'))
+
+    addPlugin(resolver.resolve('./runtime/plugins/highlight-directive'))
+    addPlugin(resolver.resolve('./runtime/plugins/step-directive'))
+
+    addComponentsDir({ path: resolver.resolve('./runtime/components') })
   },
 })
