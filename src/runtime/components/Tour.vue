@@ -1,28 +1,30 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div ref="tour-root">
-    <h1 v-step:1="{ title: 'Step 1', description: 'Description' }">
-      DriverJS Tour 1
-    </h1>
-    <h1 v-step:2="{ title: 'Step 2', description: 'Description' }">
-      DriverJS Tour 2
-    </h1>
-    <h1 v-step:4="{ title: 'Step 3', description: 'Description' }">
-      DriverJS Tour 3
-    </h1>
-    <h1 v-step:3="{ title: 'Step 4', description: 'Description' }">
-      DriverJS Tour 4
-    </h1>
-    <h1>
-      DriverJS Tour 5
-    </h1>
-    <slot :drive="() => driverInstance.drive()" />
+    <slot
+      v-bind="{
+        drive: driverInstance.drive,
+        highlight: driverInstance.highlight,
+        state: driverInstance.state.value,
+        isActive: driverInstance.isActive.value,
+        hasNextStep: driverInstance.hasNextStep.value,
+        hasPreviousStep: driverInstance.hasPreviousStep.value,
+        isFirstStep: driverInstance.isFirstStep.value,
+        isLastStep: driverInstance.isLastStep.value,
+        activeIndex: driverInstance.activeIndex.value,
+        activeStep: driverInstance.activeStep.value,
+        previousStep: driverInstance.previousStep.value,
+        activeElement: driverInstance.activeElement.value,
+        previousElement: driverInstance.previousElement.value,
+      }"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, useTemplateRef, ref, isRef } from 'vue'
-import type { Popover } from 'driver.js'
+import { onMounted, useTemplateRef, ref, isRef, useAttrs } from 'vue'
+import type { DriveStep, Popover, State } from 'driver.js'
+import 'driver.js/dist/driver.css'
 import useDriver from '../composables/useDriver'
 import type { ExtendedDriveStep, UseDriverOptions } from '../composables/useDriver'
 
@@ -60,11 +62,33 @@ onMounted(() => {
   steps.value = mapped
 })
 
-const driverProps = Object.fromEntries(Object.entries(props).filter(([_, v]) => v !== undefined))
+const attrs = useAttrs()
+const driverProps = Object.fromEntries(
+  Object.entries(props).filter(([key]) => key in attrs),
+)
 const driverInstance = useDriver({ ...driverProps, steps })
 
 defineExpose({ ...driverInstance })
-defineSlots<{
-  default(props: { drive: () => void }): void
-}>()
+
+type SlotProps = {
+  drive: (stepIndex?: number) => void
+  highlight: (step: ExtendedDriveStep) => void
+  state: State
+  isActive: boolean
+  hasNextStep: boolean
+  hasPreviousStep: boolean
+  isFirstStep: boolean
+  isLastStep: boolean
+  activeIndex: number | undefined
+  activeStep: DriveStep | undefined
+  previousStep: DriveStep | undefined
+  activeElement: Element | undefined
+  previousElement: Element | undefined
+}
+
+type Slots = {
+  default: (props: SlotProps) => unknown
+}
+
+defineSlots<Slots>()
 </script>
