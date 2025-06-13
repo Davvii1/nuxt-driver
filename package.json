@@ -1,8 +1,11 @@
 {
-  "name": "my-module",
-  "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "your-org/my-module",
+  "name": "nuxt-driverjs",
+  "version": "0.1.0",
+  "description": "Nuxt module for Driver.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Davvii1/driverjs-nuxt"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -48,7 +51,6 @@
     "changelogen": "^0.6.1",
     "eslint": "^9.28.0",
     "happy-dom": "^18.0.1",
-    "js-dom": "^0.0.1",
     "nuxt": "^3.17.5",
     "playwright-core": "^1.53.0",
     "typescript": "~5.8.3",
