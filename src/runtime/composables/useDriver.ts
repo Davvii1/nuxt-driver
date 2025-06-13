@@ -1,7 +1,7 @@
 import { driver } from 'driver.js'
 import type { Config, DriveStep, State } from 'driver.js'
 import 'driver.js/dist/driver.css'
-import { getCurrentInstance, isRef, ref, unref } from 'vue'
+import { getCurrentInstance, ref, unref } from 'vue'
 import type { Ref } from 'vue'
 import { createError } from '#app'
 
@@ -68,13 +68,13 @@ export default function useDriver(options: UseDriverOptions) {
     const stepsArray = unref(steps)
     if (!stepsArray) return []
     return stepsArray.map((step, idx) => {
-      if (!isRef(step.element)) return step
-      if (step.element.value === null) {
+      const element = unref(step.element)
+      if (element === null) {
         console.warn(`Element in step index ${idx} is null after mount and will be skipped`)
       }
       return {
         ...step,
-        element: step.element.value,
+        element,
       }
     })
   }
