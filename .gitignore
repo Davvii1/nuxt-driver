@@ -9,6 +9,9 @@ node_modules
 .tmp
 .cache
 
+# Bun
+bun.lock
+
 # Yarn
 **/.yarn/cache
 **/.yarn/*state*

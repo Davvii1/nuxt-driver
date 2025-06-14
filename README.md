@@ -1,23 +1,13 @@
-<!--
-Get your module up and running quickly.
+# Nuxt Driver | Driver.js Nuxt Module
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
-
-# Driver.js Nuxt Module
-
-<!-- [![npm version][npm-version-src]][npm-version-href]
+[![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
-[![Nuxt][nuxt-src]][nuxt-href] -->
+[![Nuxt][nuxt-src]][nuxt-href]
 
 A Nuxt 3 module that brings the powerful [Driver.js](https://driverjs.com/) library to your Nuxt applications. Create beautiful, interactive product tours, feature highlights, and user onboarding flows with minimal effort. The module provides a declarative and programmatic API, supporting both CSS selectors and Vue template refs for maximum flexibility. With built-in TypeScript support, reactive state management, and a rich set of features, you can create engaging user experiences while maintaining full control over the tour flow and appearance.
 
 - [✨ &nbsp;Release Notes](/CHANGELOG.md)
-<!-- - [🏀 Online playground](https://stackblitz.com/github/your-org/my-module?file=playground%2Fapp.vue) -->
 <!-- - [📖 &nbsp;Documentation](https://example.com) -->
 
 ## Features
@@ -31,7 +21,6 @@ A Nuxt 3 module that brings the powerful [Driver.js](https://driverjs.com/) libr
 - ✨ **Directive Support**: `v-step` and `v-highlight` directives for easy integration
 - 🔄 **Progress Tracking**: Built-in progress indicators for multi-step tours
 - 🎨 **Customizable**: Full access to Driver.js configuration options
-- 🧩 **Modular**: Import only the features you need to keep your bundle small
 
 ## Quick Setup
 
@@ -171,7 +160,7 @@ const shouldHighlight = ref(true);
 </script>
 ```
 
-### Available Properties and Methods
+## Available Properties and Methods
 
 #### `useDriver` Return Value
 - `drive(stepIndex?)`: Start the tour or go to a specific step
@@ -197,47 +186,21 @@ const shouldHighlight = ref(true);
   - All other state properties from `useDriver`
 
 
-<!-- ## Contribution
+### Credits
 
-<details>
-  <summary>Local development</summary>
-  
-  ```bash
-  # Install dependencies
-  npm install
-  
-  # Generate type stubs
-  npm run dev:prepare
-  
-  # Develop with the playground
-  npm run dev
-  
-  # Build the playground
-  npm run dev:build
-  
-  # Run ESLint
-  npm run lint
-  
-  # Run Vitest
-  npm run test
-  npm run test:watch
-  
-  # Release new version
-  npm run release
-  ```
+This module is built on top of the amazing [Driver.js](https://github.com/kamranahmedse/driver.js) library by [Kamran Ahmed](https://github.com/kamranahmedse).
 
-</details> -->
+Driver.js is a light-weight, no-dependency, vanilla JavaScript engine to drive user's focus across the page. It's MIT licensed and can be found at [driverjs.com](https://driverjs.com).
 
 
-<!-- Badges
 [npm-version-src]: https://img.shields.io/npm/v/nuxt-driverjs/latest.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-version-href]: https://npmjs.com/package/nuxt-driverjs
+[npm-version-href]: https://www.npmjs.com/package/nuxt-driver
 
 [npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-driverjs.svg?style=flat&colorA=020420&colorB=00DC82
-[npm-downloads-href]: https://npm.chart.dev/nuxt-driverjs
+[npm-downloads-href]: https://www.npmjs.com/package/nuxt-driver
 
 [license-src]: https://img.shields.io/npm/l/nuxt-driverjs.svg?style=flat&colorA=020420&colorB=00DC82
-[license-href]: https://npmjs.com/package/nuxt-driverjs
--->
+[license-href]: https://www.npmjs.com/package/nuxt-driver
+
 [nuxt-src]: https://img.shields.io/badge/Nuxt-020420?logo=nuxt.js
 [nuxt-href]: https://nuxt.com
