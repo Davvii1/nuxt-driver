@@ -27,7 +27,7 @@ A Nuxt 3 module that brings the powerful [Driver.js](https://driverjs.com/) libr
 1. Add the module to your Nuxt project:
 
 ```bash
-npx nuxi module add nuxt-driverjs
+npx nuxi module add nuxt-driver
 ```
 
 2. The module will automatically register the necessary components and composables.
